@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/strada_terrain.obj-20cf46300108430427c19ff624e245c6.mesh"
+
+[deps]
+
+files=[ "res://.import/strada_terrain.obj-20cf46300108430427c19ff624e245c6.mesh" ]
+
+source_file="res://Assets/strada_terrain.obj"
+dest_files=[ "res://.import/strada_terrain.obj-20cf46300108430427c19ff624e245c6.mesh", "res://.import/strada_terrain.obj-20cf46300108430427c19ff624e245c6.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

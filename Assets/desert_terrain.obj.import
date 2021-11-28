@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/desert_terrain.obj-1250918225b13e4697def63d17e9d863.mesh"
+
+[deps]
+
+files=[ "res://.import/desert_terrain.obj-1250918225b13e4697def63d17e9d863.mesh" ]
+
+source_file="res://Assets/desert_terrain.obj"
+dest_files=[ "res://.import/desert_terrain.obj-1250918225b13e4697def63d17e9d863.mesh", "res://.import/desert_terrain.obj-1250918225b13e4697def63d17e9d863.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

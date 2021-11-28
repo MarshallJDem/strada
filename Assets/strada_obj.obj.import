@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/strada_obj.obj-23febf62303dc80d5f8d38f45b5f09fe.mesh"
+
+[deps]
+
+files=[ "res://.import/strada_obj.obj-23febf62303dc80d5f8d38f45b5f09fe.mesh" ]
+
+source_file="res://Assets/strada_obj.obj"
+dest_files=[ "res://.import/strada_obj.obj-23febf62303dc80d5f8d38f45b5f09fe.mesh", "res://.import/strada_obj.obj-23febf62303dc80d5f8d38f45b5f09fe.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
