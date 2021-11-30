@@ -39,6 +39,7 @@ func _input(event):
 				$Camera.rotate_x(deg2rad(changev))
 			
 
+var up_vel = 0
 func _physics_process(delta):
 	# reset the x and z velocity
 	vel.x = 0
@@ -81,16 +82,21 @@ func _physics_process(delta):
  
 	var new_vel =  Vector3.ZERO
 	# apply gravity if we arent on the floor
+	new_vel += (forward * (up_vel))
 	if !is_on_floor():
-		new_vel -= forward * gravity
+		up_vel -= gravity * delta
 	new_vel += right * input.x * moveSpeed
 	new_vel += -up * input.y * moveSpeed
 	# move the player
 	vel = move_and_slide(new_vel, self.transform.basis.z, true)
 	
+	if(is_on_floor()):
+		up_vel = 0
 	# jumping
 	if Input.is_action_pressed("jump") and is_on_floor():
 		vel.y = jumpForce
+		up_vel = jumpForce
+		print("jump")
 	
 	self.orthonormalize()
 	
