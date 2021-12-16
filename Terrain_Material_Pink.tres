@@ -1,0 +1,31 @@
+[gd_resource type="SpatialMaterial" load_steps=3 format=2]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+seed = 2
+octaves = 4
+period = 94.2
+persistence = 0.275
+lacunarity = 2.02
+
+[sub_resource type="NoiseTexture" id=2]
+noise = SubResource( 1 )
+
+[resource]
+params_diffuse_mode = 1
+params_specular_mode = 1
+albedo_color = Color( 0.803922, 0, 1, 1 )
+metallic_specular = 0.0
+emission_enabled = true
+emission = Color( 0.682353, 0.113725, 1, 1 )
+emission_energy = 3.42
+emission_operator = 1
+emission_on_uv2 = false
+emission_texture = SubResource( 2 )
+normal_enabled = true
+normal_scale = 1.16
+uv1_scale = Vector3( 0.4, 0.4, 0.4 )
+uv1_offset = Vector3( -0.47, 0.218, 0.138 )
+uv1_triplanar = true
+uv2_scale = Vector3( 0.044, 0.044, 0.044 )
+uv2_offset = Vector3( -0.428, 0, 0.546 )
+uv2_triplanar = true

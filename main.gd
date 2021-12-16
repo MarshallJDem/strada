@@ -9,6 +9,12 @@ var transition_start_y = 0
 
 var has_transitioned = false
 
+onready var terrain_pink = load("res://Terrain_Material_Pink.tres")
+onready var terrain_blue = load("res://Terrain_Material.tres")
+onready var terrain_green = load("res://Terrain_Material_Green.tres")
+onready var portal_blue = load("res://Portal_Material_Blue.tres")
+onready var portal_yellow = load("res://Portal_Material_Yellow.tres")
+
 
 enum Control_Schemes { touchscreen, keyboard, controller};
 var control_scheme = Control_Schemes.keyboard;
@@ -25,8 +31,24 @@ func _transition_complete():
 	$WorldEnvironment.environment.adjustment_brightness = 0.5
 	$WorldEnvironment.environment.adjustment_contrast = 1.5
 	$WorldEnvironment.environment.adjustment_saturation = 0.01
-	
+
+var current_world = 0
+var just_portaled = false
+
+var just_portaled2 = false
+
+
+var captured = false
+
+func _input(event):
+	if self.control_scheme == 1 and event is InputEventMouseButton:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		captured = true
+
+
 func _physics_process(delta):
+	
+	
 	
 	if OS.has_touchscreen_ui_hint():
 		control_scheme = Control_Schemes.touchscreen;
@@ -55,9 +77,46 @@ func _physics_process(delta):
 	
 	#print($Player.transform.origin.distance_to($Portal.transform.origin));
 	# Portal collision
-	if $Player.transform.origin.distance_to($Portal.transform.origin) < 0.7:
-		JavaScript.eval("enableReactVisibility()", true)
-
-#func _orb_move_complete():
-#	$Orb.transform.origin.y = 2.0
-#	$SpeechBubble.visible = true
+	
+	
+	if current_world == 0:
+		$Planet.visible = true
+		$Planet_Wilke.visible = false
+		$Planet_Woogie.visible = false
+		# Character maker
+		if $Player.transform.origin.distance_to($Planet/Portal.global_transform.origin) < 0.7:
+			if !just_portaled:
+				JavaScript.eval("enableReactVisibility()", true)
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				just_portaled = true
+				captured = false
+			else: 
+				just_portaled = false
+		# Wilke World portal
+		if $Player.transform.origin.distance_to($Planet/Portal1.global_transform.origin) < 0.7:
+			$Player.transform.origin = $Planet_Wilke/SpawnPoint.global_transform.origin
+			$Player.rotation_degrees = Vector3(-90,0,0)
+			current_world = 1
+		# Woogie world portal
+		if $Player.transform.origin.distance_to($Planet/Portal2.global_transform.origin) < 0.7:
+			$Player.transform.origin = $Planet_Woogie/SpawnPoint.global_transform.origin
+			$Player.rotation_degrees = Vector3(0,0,0)
+			current_world = 2
+	if current_world == 1:
+		$Planet.visible = false
+		$Planet_Wilke.visible = true
+		$Planet_Woogie.visible = false
+		if $Player.transform.origin.distance_to($Planet_Wilke/Portal.global_transform.origin) < 0.7:
+			$Player.transform.origin = Vector3(0,40,20)
+			$Player.rotation_degrees = Vector3(0,0,0)
+			current_world = 0
+	if current_world == 2:
+		$Planet.visible = false
+		$Planet_Wilke.visible = false
+		$Planet_Woogie.visible = true
+		if $Player.transform.origin.distance_to($Planet_Woogie/Portal.global_transform.origin) < 0.7:
+			$Player.transform.origin = Vector3(0,40,20)
+			$Player.rotation_degrees = Vector3(0,0,0)
+			current_world = 0
+		
+	

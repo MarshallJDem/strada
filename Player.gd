@@ -7,29 +7,27 @@ extends KinematicBody
 
 
 # physics
-var moveSpeed : float = 1.0
+var moveSpeed : float = 5.0
 var jumpForce : float = 2.5
 var gravity : float = 8.0
 var vel : Vector3 = Vector3(0,0,0)
+var main;
 
 var mouse_sens = 0.3
 var camera_anglev=0
-var captured = false
-
 func _ready():
-	pass
+	main = get_tree().get_root().get_node("Main")
 func _input(event):
-	var main = get_tree().get_root().get_node("Main")
-	if main.control_scheme == 1 and event is InputEventMouseButton:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		captured = true
+	
 		
-	if captured and main.control_scheme == 1 and event is InputEventMouseMotion:
-		rotate(self.transform.basis.z.normalized(),deg2rad(-event.relative.x*mouse_sens))
-		var changev=-event.relative.y*mouse_sens
-		if camera_anglev+changev>-50 and camera_anglev+changev<50:
-			camera_anglev+=changev
-			$Camera.rotate_x(deg2rad(changev))
+	if main.captured and main.control_scheme == 1:
+		if event is InputEventMouseMotion:
+			rotate(self.transform.basis.z.normalized(),deg2rad(-event.relative.x*mouse_sens))
+			var changev=-event.relative.y*mouse_sens
+			if camera_anglev+changev>-50 and camera_anglev+changev<50:
+				camera_anglev+=changev
+				$Camera.rotate_x(deg2rad(changev))
+				
 	elif main.control_scheme == 0 and event is InputEventScreenDrag:
 		if event.index != get_tree().get_root().get_node("Main/GUI/JoystickL")._touch_index:
 			rotate(self.transform.basis.z.normalized(),deg2rad(-event.relative.x*mouse_sens))
@@ -46,7 +44,12 @@ func _physics_process(delta):
 	vel.z = 0
 
 	var input = Vector2()
-
+	
+	# Check if we clicked on dialogue
+	if Input.is_action_just_released("click"):
+		if $Camera/RayCast.is_colliding():
+			main.get_node("StradaAvatar/Dialogue")._next_clicked();
+#
 
 	if get_tree().get_root().get_node("Main").control_scheme == 1:
 		# movement inputs
@@ -65,8 +68,13 @@ func _physics_process(delta):
 
 	input = input.normalized()
 	
+	var gravity_origin = Vector3.ZERO
+	if main.current_world == 2:
+		gravity_origin = main.get_node("Planet_Woogie").transform.origin
 	
-	self.look_at(Vector3.ZERO, self.transform.basis.y)
+	# Dont do this on wilke
+	if main.current_world != 1:
+		self.look_at(gravity_origin, self.transform.basis.y)
 	
 	# get the forward and right directions
 	var right = self.transform.basis.x
@@ -78,9 +86,12 @@ func _physics_process(delta):
 #	vel.x =  input.x * moveSpeed
 #	vel.y =  input.y * moveSpeed
 #	vel.z -=  gravity * delta
-	var grav_direction = (self.transform.origin - Vector3.ZERO).normalized()
+	if main.current_world == 1:
+		up = self.transform.basis.y
+		right = self.transform.basis.x
+		forward = Vector3.UP
  
-	var new_vel =  Vector3.ZERO
+	var new_vel = Vector3.ZERO
 	# apply gravity if we arent on the floor
 	new_vel += (forward * (up_vel))
 	if !is_on_floor():
