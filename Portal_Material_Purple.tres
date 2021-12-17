@@ -1,0 +1,10 @@
+[gd_resource type="SpatialMaterial" format=2]
+
+[resource]
+albedo_color = Color( 0.803922, 1, 0, 1 )
+metallic_specular = 0.0
+emission_enabled = true
+emission = Color( 73.71, 0.2, 0.91, 1 )
+emission_energy = 1.03
+emission_operator = 0
+emission_on_uv2 = false

@@ -9,20 +9,23 @@ var transition_start_y = 0
 
 var has_transitioned = false
 
+var wilke_activated = false
+var woogie_activated = false
+
 onready var terrain_pink = load("res://Terrain_Material_Pink.tres")
 onready var terrain_blue = load("res://Terrain_Material.tres")
 onready var terrain_green = load("res://Terrain_Material_Green.tres")
-onready var portal_blue = load("res://Portal_Material_Blue.tres")
-onready var portal_yellow = load("res://Portal_Material_Yellow.tres")
-
 
 enum Control_Schemes { touchscreen, keyboard, controller};
 var control_scheme = Control_Schemes.keyboard;
+
+var portals_active = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Transition_Timer.connect("timeout", self, "_transition_complete")
 	$Orb_Move_Timer.connect("timeout", self, "_orb_move_complete")
+	$Planet/Portal.active = true
 	pass # Replace with function body.
 
 		
@@ -48,35 +51,22 @@ func _input(event):
 
 func _physics_process(delta):
 	
-	
+	if !portals_active:
+		$Planet/Portal1.active = false
+		$Planet/Portal2.active = false
+	else:
+		$Planet/Portal1.active = true
+		$Planet/Portal2.active = true
+		
 	
 	if OS.has_touchscreen_ui_hint():
 		control_scheme = Control_Schemes.touchscreen;
 	else:
 		control_scheme = Control_Schemes.keyboard;
 	
-#
-#	if $Transition_Timer.time_left > 0:
-#		# First half
-#		if($Transition_Timer.time_left > $Transition_Timer.wait_time/2):
-#			var progress = ($Transition_Timer.wait_time - $Transition_Timer.time_left) / ($Transition_Timer.wait_time/2)
-#			$Player.transform.origin.y = (150 * progress) + transition_start_y
-#		# Second half
-#		else:
-#			var progress = ($Transition_Timer.wait_time - $Transition_Timer.time_left) / ($Transition_Timer.wait_time/2)
-#			$WorldEnvironment.environment.background_energy = 0.0;
-#			$Portal.visible = false
-#			$Orb.visible = true
-#			$StradaLogo.visible = false
-#			$TerrainBody/TerrainMesh._activate_grey_world()
-#
-#	if $Orb_Move_Timer.time_left > 0:
-#		var progress = ( $Orb_Move_Timer.wait_time  - $Orb_Move_Timer.time_left ) / $Orb_Move_Timer.wait_time
-#		$Orb.transform.origin.y = lerp(0.7, 2.0, progress)
-	
-	
-	#print($Player.transform.origin.distance_to($Portal.transform.origin));
-	# Portal collision
+	if Input.is_key_pressed(KEY_ESCAPE):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		captured = false 
 	
 	
 	if current_world == 0:
@@ -106,17 +96,25 @@ func _physics_process(delta):
 		$Planet.visible = false
 		$Planet_Wilke.visible = true
 		$Planet_Woogie.visible = false
-		if $Player.transform.origin.distance_to($Planet_Wilke/Portal.global_transform.origin) < 0.7:
-			$Player.transform.origin = Vector3(0,40,20)
-			$Player.rotation_degrees = Vector3(0,0,0)
-			current_world = 0
+		if wilke_activated:
+			$Planet_Wilke/Portal.active = true
+			if $Player.transform.origin.distance_to($Planet_Wilke/Portal.global_transform.origin) < 0.7:
+				$Player.transform.origin = Vector3(0,20,-20)
+				$Player.rotation_degrees = Vector3(-90,0,0)
+				current_world = 0
+		else:
+			$Planet_Wilke/Portal.active = false
 	if current_world == 2:
 		$Planet.visible = false
 		$Planet_Wilke.visible = false
 		$Planet_Woogie.visible = true
-		if $Player.transform.origin.distance_to($Planet_Woogie/Portal.global_transform.origin) < 0.7:
-			$Player.transform.origin = Vector3(0,40,20)
-			$Player.rotation_degrees = Vector3(0,0,0)
-			current_world = 0
-		
+		if woogie_activated:
+			$Planet_Woogie/Portal.active = true
+			if $Player.transform.origin.distance_to($Planet_Woogie/Portal.global_transform.origin) < 0.7:
+				$Player.transform.origin = Vector3(0,20,-20)
+				$Player.rotation_degrees = Vector3(-90,0,0)
+				current_world = 0
+		else:
+			$Planet_Woogie/Portal.active = false
+			
 	

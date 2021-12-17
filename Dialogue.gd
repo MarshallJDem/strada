@@ -1,5 +1,7 @@
 extends Spatial
 
+var main;
+
 var s_dialogue = [
 	"Hi, you don't look like you're from here.",
 	"You're the first visitor we've had in StradaVerse since we lost everyone.",
@@ -19,22 +21,39 @@ var u_dialogue = [
 	"How can I help?",
 	"Yes",
 	# Hold
+	"FILLER",
 	"Thank you, how?",
 	
 ]
 
-var s_dialogue_index = 0
-var u_dialogue_index = 0
-
+var dialogue_index = 0
 func _ready():
 	$View.texture = $Viewport.get_texture()
+	main = get_tree().get_root().get_node("Main")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$Viewport/Label.text = s_dialogue[s_dialogue_index]
-	$Viewport/Button.text = u_dialogue[u_dialogue_index]
-	var avatar = get_tree().get_root().get_node("Main/StradaAvatar")
+	if dialogue_index == 2:
+		$Viewport/Label.get_font("font").size = 18
+		$Viewport/Label.valign = $Viewport/Label.VALIGN_TOP
+	elif dialogue_index == 4:
+		$Viewport/Label.get_font("font").size = 25
+		$Viewport/Label.valign = $Viewport/Label.VALIGN_TOP
+	else:
+		$Viewport/Label.get_font("font").size = 25
+		$Viewport/Label.valign = $Viewport/Label.VALIGN_CENTER
+	if dialogue_index >= 5:
+		main.portals_active = true
+	
+	if dialogue_index == 5:
+		$Viewport/Button.visible = false
+	else:
+		$Viewport/Button.visible = true
+		
+	$Viewport/Label.text = s_dialogue[dialogue_index]
+	$Viewport/Button.text = u_dialogue[dialogue_index]
+	var avatar = get_tree().get_root().get_node("Main/Planet/StradaAvatar")
 	var player = get_tree().get_root().get_node("Main/Player")
 	#avatar.rotation_degrees.y = $View.rotation_degrees.y
 	var last_y = avatar.rotation_degrees.y
@@ -44,12 +63,12 @@ func _process(delta):
 		distance += 360
 	if distance > 180:
 		distance -= 360
-	
-	avatar.rotation_degrees.y = last_y + (clamp(distance, -360, 360) * delta)
+	avatar.rotation_degrees.y = last_y + (clamp(distance, -360, 360) * delta * 2)
 	avatar.rotation_degrees.x = 0
 	avatar.rotation_degrees.z = 0
 	$View.look_at(player.transform.origin, player.transform.basis.z)
 	$View.rotation_degrees.x = 0
 
 func _next_clicked():
-	print("woop");
+	if dialogue_index != 5:
+		dialogue_index += 1

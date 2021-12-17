@@ -13,11 +13,11 @@ noise = SubResource( 1 )
 [resource]
 params_diffuse_mode = 1
 params_specular_mode = 1
-albedo_color = Color( 0.196078, 0.341176, 0.776471, 1 )
+albedo_color = Color( 0.196078, 0.196078, 0.196078, 1 )
 metallic_specular = 0.0
 emission_enabled = true
-emission = Color( 0, 0.0627451, 1, 1 )
-emission_energy = 1.12
+emission = Color( 0.682353, 0.113725, 1, 1 )
+emission_energy = 0.0
 emission_operator = 1
 emission_on_uv2 = false
 emission_texture = SubResource( 2 )

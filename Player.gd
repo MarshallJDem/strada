@@ -48,7 +48,7 @@ func _physics_process(delta):
 	# Check if we clicked on dialogue
 	if Input.is_action_just_released("click"):
 		if $Camera/RayCast.is_colliding():
-			main.get_node("StradaAvatar/Dialogue")._next_clicked();
+			main.get_node("Planet/StradaAvatar/Dialogue")._next_clicked();
 #
 
 	if get_tree().get_root().get_node("Main").control_scheme == 1:
@@ -72,8 +72,8 @@ func _physics_process(delta):
 	if main.current_world == 2:
 		gravity_origin = main.get_node("Planet_Woogie").transform.origin
 	
-	# Dont do this on wilke
-	if main.current_world != 1:
+	# Do this only on woogie
+	if main.current_world == 2:
 		self.look_at(gravity_origin, self.transform.basis.y)
 	
 	# get the forward and right directions
@@ -86,7 +86,7 @@ func _physics_process(delta):
 #	vel.x =  input.x * moveSpeed
 #	vel.y =  input.y * moveSpeed
 #	vel.z -=  gravity * delta
-	if main.current_world == 1:
+	if main.current_world != 2:
 		up = self.transform.basis.y
 		right = self.transform.basis.x
 		forward = Vector3.UP
