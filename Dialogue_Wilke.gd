@@ -5,10 +5,12 @@ var main;
 func _ready():
 	$View.texture = $Viewport.get_texture()
 	main = get_tree().get_root().get_node("Main")
+	self.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	return
 	
 	var orb = get_parent()
 	var player = get_tree().get_root().get_node("Main/Player")
@@ -37,6 +39,7 @@ func _process(delta):
 		$View.modulate.a = progress
 
 func _next_clicked():
+	return
 	if !get_parent().activated:
 		get_parent().activate()
 	

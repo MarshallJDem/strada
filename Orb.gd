@@ -41,7 +41,8 @@ func _physics_process(delta: float) -> void:
 		if main.current_world == 2:
 			material.emission_energy = lerp(0,3.5,progress);
 			material.albedo_color = Color(lerp(50.0/255.0, 200.0/255.0, progress), lerp(50.0/255.0, 0.0/255.0, progress), lerp(50.0/255.0, 200.0/255.0, progress));
-		
+	if !activated and main.get_node("Player").global_transform.origin.distance_to(self.global_transform.origin) < 1:
+		activate()
 func activate():
 	if main.current_world == 1:
 		$AddColor_Timer.start();
