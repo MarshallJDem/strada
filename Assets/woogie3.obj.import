@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/woogie3.obj-5e8096c2ea5b01fc7080cd8308e32580.mesh"
+
+[deps]
+
+files=[ "res://.import/woogie3.obj-5e8096c2ea5b01fc7080cd8308e32580.mesh" ]
+
+source_file="res://Assets/woogie3.obj"
+dest_files=[ "res://.import/woogie3.obj-5e8096c2ea5b01fc7080cd8308e32580.mesh", "res://.import/woogie3.obj-5e8096c2ea5b01fc7080cd8308e32580.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

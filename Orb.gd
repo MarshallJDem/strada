@@ -49,9 +49,11 @@ func activate():
 		self.visible = false
 		main.wilke_activated = true
 		activated = true
+		main.get_node("WilkeMusic").play()
 	# Woogie
 	elif main.current_world == 2:
 		$AddColor_Timer.start();
 		self.visible = false
 		main.woogie_activated = true
 		activated = true
+		main.get_node("WoogieMusic").play()

@@ -76,6 +76,8 @@ func _physics_process(delta):
 		$Planet.visible = true
 		$Planet_Wilke.visible = false
 		$Planet_Woogie.visible = false
+		$WilkeMusic.playing = false
+		$WoogieMusic.playing = false
 		# Character maker
 		if $Player.transform.origin.distance_to($Planet/Portal.global_transform.origin) < 1:
 			if !just_portaled and (woogie_activated and wilke_activated):
@@ -88,7 +90,7 @@ func _physics_process(delta):
 		# Wilke World portal
 		if $Player.transform.origin.distance_to($Planet/Portal1.global_transform.origin) < 1 and portals_active:
 			$Player.transform.origin = $Planet_Wilke/SpawnPoint.global_transform.origin
-			$Player.rotation_degrees = Vector3(-90,0,0)
+			$Player.rotation_degrees = Vector3(-90,180,0)
 			current_world = 1
 		# Woogie world portal
 		if $Player.transform.origin.distance_to($Planet/Portal2.global_transform.origin) < 1 and portals_active:
@@ -99,24 +101,29 @@ func _physics_process(delta):
 		$Planet.visible = false
 		$Planet_Wilke.visible = true
 		$Planet_Woogie.visible = false
+		$MainMusic.playing = false
 		if wilke_activated:
 			$Planet_Wilke/Portal.active = true
 			if $Player.transform.origin.distance_to($Planet_Wilke/Portal.global_transform.origin) < 1:
 				$Player.transform.origin = Vector3(0,10,-20)
 				$Player.rotation_degrees = Vector3(-90,180,0)
 				current_world = 0
+				$MainMusic.play()
 		else:
 			$Planet_Wilke/Portal.active = false
 	if current_world == 2:
 		$Planet.visible = false
 		$Planet_Wilke.visible = false
 		$Planet_Woogie.visible = true
+		$MainMusic.playing = false
 		if woogie_activated:
 			$Planet_Woogie/Portal.active = true
 			if $Player.transform.origin.distance_to($Planet_Woogie/Portal.global_transform.origin) < 1:
 				$Player.transform.origin = Vector3(0,10,-20)
 				$Player.rotation_degrees = Vector3(-90,180,0)
 				current_world = 0
+				
+				$MainMusic.play()
 		else:
 			$Planet_Woogie/Portal.active = false
 			

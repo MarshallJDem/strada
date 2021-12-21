@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/wilke3.obj-3a3e8d7596db5c9669c932903f5fa41d.mesh"
+
+[deps]
+
+files=[ "res://.import/wilke3.obj-3a3e8d7596db5c9669c932903f5fa41d.mesh" ]
+
+source_file="res://Assets/wilke3.obj"
+dest_files=[ "res://.import/wilke3.obj-3a3e8d7596db5c9669c932903f5fa41d.mesh", "res://.import/wilke3.obj-3a3e8d7596db5c9669c932903f5fa41d.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
