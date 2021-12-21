@@ -48,7 +48,9 @@ func _physics_process(delta):
 	# Check if we clicked on dialogue
 	if Input.is_action_just_released("click"):
 		if $Camera/RayCast.is_colliding():
-			main.get_node("Planet/StradaAvatar/Dialogue")._next_clicked();
+			var collider = $Camera/RayCast.get_collider()
+			var dialogue = collider.get_parent().get_parent()
+			dialogue._next_clicked();
 #
 
 	if get_tree().get_root().get_node("Main").control_scheme == 1:

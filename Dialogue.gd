@@ -11,7 +11,7 @@ var s_dialogue = [
 	"Thank you. Follow the light and you'll never lose your way",
 	# Hold
 	"Wow! I can't believe it. The generator is back on. The biggest gift I can give to thank you is the power of the Original Creator.",
-	"Soon, this portal will open and you'll discover what's always been waiting for you.Don't worry, there's other explorers like you. Go meet them.",
+	"Soon, this portal will open and you'll discover what's always been waiting for you. Don't worry, there's other explorers like you. Go meet them.",
 	
 ]
 var u_dialogue = [
@@ -23,6 +23,7 @@ var u_dialogue = [
 	# Hold
 	"FILLER",
 	"Thank you, how?",
+	"FILLER",
 	
 ]
 
@@ -34,6 +35,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if dialogue_index == 5 and main.woogie_activated and main.wilke_activated:
+		dialogue_index = 6
 	if dialogue_index == 2:
 		$Viewport/Label.get_font("font").size = 18
 		$Viewport/Label.valign = $Viewport/Label.VALIGN_TOP
@@ -45,11 +48,14 @@ func _process(delta):
 		$Viewport/Label.valign = $Viewport/Label.VALIGN_CENTER
 	if dialogue_index >= 5:
 		main.portals_active = true
+		
 	
-	if dialogue_index == 5:
+	if dialogue_index == 5 or dialogue_index == 7:
 		$Viewport/Button.visible = false
 	else:
 		$Viewport/Button.visible = true
+	
+	
 		
 	$Viewport/Label.text = s_dialogue[dialogue_index]
 	$Viewport/Button.text = u_dialogue[dialogue_index]
@@ -68,7 +74,18 @@ func _process(delta):
 	avatar.rotation_degrees.z = 0
 	$View.look_at(player.transform.origin, player.transform.basis.z)
 	$View.rotation_degrees.x = 0
+	
+	
+	var distance_to_player = self.global_transform.origin.distance_to(main.get_node("Player").global_transform.origin)
+	if distance_to_player > 4.5:
+		self.visible = false
+	elif distance_to_player < 2.5:
+		self.visible = true
+	else:
+		self.visible = true
+		var progress = 1 - (distance_to_player - 2.5)/(4.5-2.5)
+		$View.modulate.a = progress
 
 func _next_clicked():
-	if dialogue_index != 5:
+	if dialogue_index != 5 and dialogue_index != 7:
 		dialogue_index += 1

@@ -24,26 +24,11 @@ func _process(delta):
 	material.set_shader_param("dissolve_amount", 0.5 + val/4)
 	material.set_shader_param("burn_size", 0.1 + val2/10)
 	#material.set_shader_param("burn_size", val)
-	self.rotate(Vector3(1,1,0).normalized(), PI * delta / 5)
+	#self.rotate(Vector3(1,1,0).normalized(), PI * delta / 5)
 	
 func _physics_process(delta: float) -> void:
-	
-	if !activated:
-		if self.global_transform.origin.distance_to(main.get_node("Player").global_transform.origin) < 0.75:
-			# Collided
-			# Wilke
-			if main.current_world == 1:
-				$AddColor_Timer.start();
-				self.visible = false
-				main.wilke_activated = true
-				activated = true
-			# Woogie
-			elif main.current_world == 2:
-				$AddColor_Timer.start();
-				self.visible = false
-				main.woogie_activated = true
-				activated = true
-	
+	if activated:
+		self.visible = false
 	if $AddColor_Timer.time_left > 0:
 		var material = main.get_node("Planet_Wilke/wilkeworld").get_surface_material(0)
 		if main.current_world == 2:
@@ -57,4 +42,15 @@ func _physics_process(delta: float) -> void:
 			material.emission_energy = lerp(0,3.5,progress);
 			material.albedo_color = Color(lerp(50.0/255.0, 200.0/255.0, progress), lerp(50.0/255.0, 0.0/255.0, progress), lerp(50.0/255.0, 200.0/255.0, progress));
 		
-		
+func activate():
+	if main.current_world == 1:
+		$AddColor_Timer.start();
+		self.visible = false
+		main.wilke_activated = true
+		activated = true
+	# Woogie
+	elif main.current_world == 2:
+		$AddColor_Timer.start();
+		self.visible = false
+		main.woogie_activated = true
+		activated = true
